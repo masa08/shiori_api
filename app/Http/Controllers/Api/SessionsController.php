@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use JWTAuth;
-use App\User;
+use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Requests\RegistrationFormRequest;
-class APIController extends Controller
+
+class SessionsController extends Controller
 {
     /**
      * @var bool

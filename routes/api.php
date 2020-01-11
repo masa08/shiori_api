@@ -13,10 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 Route::middleware(['cors'])->group(function () {
-    Route::post('login', 'ApiController@login');
-    Route::post('register', 'ApiController@register');
+    Route::post('login', 'Api\SessionsController@login');
+    Route::post('register', 'Api\SessionsController@register');
 
     Route::group(['middleware' => 'auth.jwt'], function () {
-        Route::get('logout', 'ApiController@logout');
+        Route::get('logout', 'Api\SessionsController@logout');
+        Route::resource('users', 'Api\UserController', ['only' => ['show', 'edit', 'update']]);
     });
 });
