@@ -9,19 +9,17 @@ use App\Model\User;
 
 class UserController extends Controller
 {
-    public function show(Request $request)
+    public function show($id)
     {
-        dd('success');
+        $user = User::find($id);
+        return response()->json(['user' => $user]);
     }
 
-    public function edit(Request $request)
+    public function update(Request $request, $id)
     {
-        dd('edit');
+        $user = User::find($id);
+        $user->name = $request->input('name');
+        $user->save();
+        return response()->json(['user' => $user]);
     }
-
-    public function update(Request $request)
-    {
-        dd('update');
-    }
-
 }

@@ -18,6 +18,6 @@ Route::middleware(['cors'])->group(function () {
 
     Route::group(['middleware' => 'auth.jwt'], function () {
         Route::get('logout', 'Api\SessionsController@logout');
-        Route::resource('users', 'Api\UserController', ['only' => ['show', 'edit', 'update']]);
+        Route::resource('users', 'Api\UserController', ['only' => ['show', 'update']]);
     });
 });
