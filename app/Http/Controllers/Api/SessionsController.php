@@ -31,10 +31,13 @@ public function login(Request $request)
                 'message' => 'Invalid Email or Password',
             ], 401);
         }
+        $email = $request->input('email');
+        $user = User::where('email', $email)->first();
 
         return response()->json([
             'success' => true,
             'token' => $token,
+            'user' => $user,
         ]);
     }
 
