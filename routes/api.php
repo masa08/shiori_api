@@ -17,10 +17,11 @@ Route::group(['middleware' => 'cors'], function () {
     Route::post('register', 'Api\SessionsController@register');
     Route::get('logout', 'Api\SessionsController@logout');
     Route::options('sentence', 'Api\SentenceController@store');
-    Route::resource('sentence', 'Api\SentenceController', ['only' => ['store']]);
+    Route::resource('sentence', 'Api\SentenceController', ['only' => ['index', 'show', 'store']]);
+    Route::resource('book', 'Api\BookController', ['only' => ['index']]);
+    Route::resource('users', 'Api\UserController', ['only' => ['show', 'update']]);
 
     // TODO: JWTの再設定
     Route::group(['middleware' => 'auth.jwt'], function () {
-        Route::resource('users', 'Api\UserController', ['only' => ['show', 'update']]);
     });
 });

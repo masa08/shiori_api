@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Model\User;
+use App\Models\User;
 
 class UserController extends Controller
 {
     public function show($id)
     {
-        $user = User::find($id);
-        return response()->json(['user' => $user]);
+        $user = User::with('sentences')->find($id);
+        return response()->json([
+            'user' => $user,
+        ]);
     }
 
     public function update(Request $request, $id)

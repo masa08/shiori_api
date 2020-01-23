@@ -11,6 +11,14 @@ use App\Models\Sentence;
 
 class SentenceController extends Controller
 {
+    public function index()
+    {
+        $sentences = Sentence::with('book')->get();
+        return response()->json([
+            'sentences' => $sentences,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $title = $request->input('title');

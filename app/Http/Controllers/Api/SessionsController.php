@@ -20,7 +20,7 @@ class SessionsController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-public function login(Request $request)
+    public function login(Request $request)
     {
         $input = $request->only('email', 'password');
         $token = null;
