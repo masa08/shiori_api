@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'cors'], function () {
     Route::post('login', 'Api\SessionsController@login');
     Route::post('register', 'Api\SessionsController@register');
-    Route::get('logout', 'Api\SessionsController@logout');
+    Route::post('logout', 'Api\SessionsController@logout');
     Route::options('sentence', 'Api\SentenceController@store');
     Route::resource('sentence', 'Api\SentenceController', ['only' => ['index', 'show', 'store']]);
     Route::resource('book', 'Api\BookController', ['only' => ['index']]);

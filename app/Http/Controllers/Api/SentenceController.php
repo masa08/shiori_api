@@ -11,9 +11,15 @@ use App\Models\Sentence;
 
 class SentenceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $sentences = Sentence::with('book')->get();
+        if ($request->input('user_id')) {
+            $user_id = $request->input('user_id');
+            $sentences = Sentence::where('user_id', $user_id)->with('book')->get();
+        } else {
+            $sentences = Sentence::with('book')->get();
+        }
+
         return response()->json([
             'sentences' => $sentences,
         ]);

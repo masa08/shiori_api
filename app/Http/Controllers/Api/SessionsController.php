@@ -53,8 +53,7 @@ class SessionsController extends Controller
         ]);
 
         try {
-            JWTAuth::invalidate($request->token);
-
+            JWTAuth::parseToken()->invalidate($request->token);
             return response()->json([
                 'success' => true,
                 'message' => 'User logged out successfully'
