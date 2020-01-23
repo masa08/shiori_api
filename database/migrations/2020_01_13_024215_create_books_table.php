@@ -27,7 +27,7 @@ class CreateBooksTable extends Migration
             $table->string('publisher_name');
             $table->string('size')->nullable();
             $table->string('isbn');
-            $table->text('item_caption');
+            $table->text('item_caption')->nullable();;
             $table->string('sales_date');
             $table->integer('item_price')->nullable();
             $table->string('item_url')->nullable();
