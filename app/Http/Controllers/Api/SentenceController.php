@@ -15,9 +15,9 @@ class SentenceController extends Controller
     {
         if ($request->input('user_id')) {
             $user_id = $request->input('user_id');
-            $sentences = Sentence::where('user_id', $user_id)->with('book')->get();
+            $sentences = Sentence::where('user_id', $user_id)->with('book')->orderBy('created_at', 'desc')->get();
         } else {
-            $sentences = Sentence::with('book')->get();
+            $sentences = Sentence::with('book')->orderBy('created_at', 'desc')->get();
         }
 
         return response()->json([
