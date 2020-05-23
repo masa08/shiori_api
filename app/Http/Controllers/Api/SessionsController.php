@@ -48,10 +48,6 @@ class SessionsController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->validate($request, [
-            'token' => 'required'
-        ]);
-
         try {
             JWTAuth::parseToken()->invalidate($request->token);
             return response()->json([
