@@ -22,10 +22,10 @@ class SessionsController extends Controller
      */
     public function login(Request $request)
     {
-        $input = $request->only('email', 'password');
+        $credentials = $request->only('email', 'password');
         $token = null;
 
-        if (!$token = JWTAuth::attempt($input)) {
+        if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid Email or Password',
@@ -80,11 +80,11 @@ class SessionsController extends Controller
 
         if ($this->loginAfterSignUp) {
             return $this->login($request);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid Email or Password',
+            ], 401);
         }
-
-        return response()->json([
-            'success'   =>  true,
-            'data'      =>  $user
-        ], 200);
     }
 }
