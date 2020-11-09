@@ -5,13 +5,21 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Services\UserService;
 use App\Models\User;
 
 class UserController extends Controller
 {
+    public function __construct(
+        UserService $userService
+    ) {
+        $this->userService = $userService;
+    }
+
     public function show($id)
     {
-        $user = User::with('sentences')->find($id);
+        $user = $this->userService->getByIdWithSentence($id);
+
         return response()->json([
             'user' => $user,
         ]);
@@ -19,9 +27,8 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
-        $user->name = $request->input('name');
-        $user->save();
+        $user = $this->userService->update($request->all, $id);
+
         return response()->json(['user' => $user]);
     }
 }
