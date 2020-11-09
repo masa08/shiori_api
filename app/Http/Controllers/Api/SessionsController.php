@@ -2,19 +2,42 @@
 
 namespace App\Http\Controllers\Api;
 
-use JWTAuth;
-use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Requests\RegistrationFormRequest;
+use App\Services\UserService;
 
 class SessionsController extends Controller
 {
+    public function __construct(
+        UserService $userService
+    ) {
+        $this->userService = $userService;
+        $this->middleware('auth:api', ['except' => ['login']]);
+    }
+
     /**
-     * @var bool
+     * @param RegistrationFormRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public $loginAfterSignUp = true;
+    public function register(Request $request)
+    {
+        $this->userService->create($request->all());
+
+        $credentials = request(['email', 'password']);
+
+        if (!$token = auth()->attempt($credentials)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid Email or Password',
+            ], 401);
+        }
+
+        $user = $this->userService->getByEmail($request->input('email'));
+
+        return $this->respondWithToken($token, $user);s
+    }
 
     /**
      * @param Request $request
@@ -22,23 +45,18 @@ class SessionsController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-        $token = null;
+        $credentials = request(['email', 'password']);
 
-        if (!$token = JWTAuth::attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid Email or Password',
             ], 401);
         }
-        $email = $request->input('email');
-        $user = User::where('email', $email)->first();
 
-        return response()->json([
-            'success' => true,
-            'token' => $token,
-            'user' => $user,
-        ]);
+        $user = $this->userService->getByEmail($request->input('email'));
+
+        return $this->respondWithToken($token, $user);
     }
 
     /**
@@ -46,10 +64,10 @@ class SessionsController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function logout(Request $request)
+    public function logout()
     {
         try {
-            JWTAuth::parseToken()->invalidate($request->token);
+            auth()->logout();
             return response()->json([
                 'success' => true,
                 'message' => 'User logged out successfully'
@@ -62,25 +80,14 @@ class SessionsController extends Controller
         }
     }
 
-    /**
-     * @param RegistrationFormRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function register(RegistrationFormRequest $request)
+    protected function respondWithToken($token, $user)
     {
-        $user           = new User();
-        $user->name     = $request->name;
-        $user->email    = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        if ($this->loginAfterSignUp) {
-            return $this->login($request);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid Email or Password',
-            ], 401);
-        }
+        return response()->json([
+            'success' => true,
+            'user' => $user,
+            'token_type' => 'bearer',
+            'token' => $token,
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
     }
 }
