@@ -14,7 +14,8 @@ class SessionsController extends Controller
         UserService $userService
     ) {
         $this->userService = $userService;
-        $this->middleware('auth:api', ['except' => ['login']]);
+        // TODO: これは何かしらべる
+        // $this->middleware('auth:api', ['except' => ['register']]);
     }
 
     /**
@@ -36,7 +37,7 @@ class SessionsController extends Controller
 
         $user = $this->userService->getByEmail($request->input('email'));
 
-        return $this->respondWithToken($token, $user);s
+        return $this->respondWithToken($token, $user);
     }
 
     /**

@@ -17,12 +17,12 @@ Route::group(['middleware' => 'cors'], function () {
     Route::resource('sentence', 'Api\SentenceController', ['only' => ['index', 'show', 'store']]);
     Route::resource('book', 'Api\BookController', ['only' => ['index']]);
     Route::resource('users', 'Api\UserController', ['only' => ['show', 'update']]);
+    Route::options('register', 'Api\SessionsController@register');
+    Route::post('register', 'Api\SessionsController@register');
 
     Route::group([
         'middleware' => 'api',
     ], function () {
-        Route::options('register', 'Api\SessionsController@register');
-        Route::post('register', 'Api\SessionsController@register');
         Route::post('login', 'Api\SessionsController@login');
         Route::post('logout', 'Api\SessionsController@logout');
     });
