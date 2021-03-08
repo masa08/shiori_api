@@ -24,6 +24,15 @@ class UserController extends Controller
         ]);
     }
 
+    public function store(Request $request)
+    {
+        $user = $this->userService->create($request->all());
+
+        return response()->json([
+            'user' => $user,
+        ]);
+    }
+
     public function update(Request $request, $id)
     {
         $user = $this->userService->update($request->all, $id);
