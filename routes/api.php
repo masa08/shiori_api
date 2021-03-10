@@ -21,11 +21,6 @@ Route::group(['middleware' => 'cors'], function () {
     Route::resource('users', 'Api\UserController', ['only' => ['show', 'update', 'store']]);
     Route::options('register', 'Api\SessionsController@register');
     Route::post('register', 'Api\SessionsController@register');
-
-    Route::group([
-        'middleware' => 'api',
-    ], function () {
-        Route::post('login', 'Api\SessionsController@login');
-        Route::post('logout', 'Api\SessionsController@logout');
-    });
+    Route::post('login', 'Api\SessionsController@login');
+    Route::post('logout', 'Api\SessionsController@logout');
 });
