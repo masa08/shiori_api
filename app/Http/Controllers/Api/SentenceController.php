@@ -36,8 +36,8 @@ class SentenceController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $book = $this->bookService->getFirstByIsbn($request->input('isbn'));
 
+        $book = $this->bookService->getFirstByIsbn($request->input('isbn'));
         if (empty($book)) {
             $book = $this->bookService->create($data);
         }
