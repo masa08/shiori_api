@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegistrationFormRequest;
 use Illuminate\Http\Request;
 
 use App\Services\UserService;
@@ -24,7 +25,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(RegistrationFormRequest $request)
     {
         $user = $this->userService->create($request->all());
 
@@ -37,6 +38,8 @@ class UserController extends Controller
     {
         $user = $this->userService->update($request->all, $id);
 
-        return response()->json(['user' => $user]);
+        return response()->json([
+            'user' => $user
+        ]);
     }
 }
