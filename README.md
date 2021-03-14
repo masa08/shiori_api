@@ -8,7 +8,7 @@ SHIORI とは、文章ベースで読書記録をすることができる、新�
 
 ## URL
 
-https://shiori.netlify.app/
+https://shioribook.com/
 
 ## 環境
 
