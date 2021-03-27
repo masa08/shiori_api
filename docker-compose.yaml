@@ -24,7 +24,8 @@ services:
     container_name: "shiori_api_postgres"
     restart: always
     environment:
+      POSTGRES_DB: shiori
       POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
+      POSTGRES_PASSWORD: password
     ports:
       - 15432:5432
