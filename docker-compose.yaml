@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build: ./
+    container_name: "shiori_api_app"
+    working_dir: /src
+    volumes:
+      - .:/src
+    depends_on:
+      - db
+
+  web:
+    image: nginx
+    container_name: "shiori_api_web"
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/src
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+  db:
+    image: postgres:latest
+    container_name: "shiori_api_postgres"
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    ports:
+      - 15432:5432
