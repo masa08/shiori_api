@@ -12,7 +12,7 @@ https://shioribook.com/
 
 ## 環境
 
--   JavaScript
+-   JavaScript/TypeScript(一部導入)
 -   Vue@2.6.12
 -   Vuetify
 -   Vuex
