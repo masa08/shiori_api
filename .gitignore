@@ -10,3 +10,8 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+# firebase秘密鍵
+shiori-*.json
+
+/db
